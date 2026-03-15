@@ -9,7 +9,7 @@ Analytics Dashboard – Generate insights on bookings and revenue.
 
 
 
- **Wedding Booking System**  
+ **Wedding Planning and Vendor Booking System**  
 
  📖 Overview 
  

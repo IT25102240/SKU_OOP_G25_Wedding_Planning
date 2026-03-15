@@ -6,7 +6,7 @@ public class Booking {
     private String date;
     private String venue;
 
-    // CREATE
+
     public void createBooking(int id, String name, String date, String venue) {
         this.bookingId = id;
         this.customerName = name;

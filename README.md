@@ -8,9 +8,6 @@ Analytics Dashboard – Generate insights on bookings and revenue.
 
 
 
-Here’s a polished **README.md draft** tailored for your *Wedding Booking System* repo, aligned with typical OOP project marking guides and GitHub best practices:  
-
----
 
  **Wedding Booking System**  
 

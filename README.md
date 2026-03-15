@@ -78,4 +78,4 @@ The **Wedding Booking System** is an all‑in‑one sales and marketing platform
 
 This structure ensures we hit the **marking guide requirements**: clear project description, feature list, technical details, setup instructions, and team contribution breakdown.  
 
-
+#made by Vidura

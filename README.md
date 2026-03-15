@@ -59,7 +59,7 @@ The **Wedding Booking System** is an all‑in‑one sales and marketing platform
 
 👥 Team Members
 
-- **Vidura (IT25102240)** – User Management  (with Analytics)
+- **Vidura** – User Management  (with Analytics)
 - **Daham** – Booking Management (Payment) 
 - **Chanuka** – Feedback & Review System  
 - **Lahiru** –  Wedding Package Management

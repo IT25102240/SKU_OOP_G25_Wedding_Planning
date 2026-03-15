@@ -12,7 +12,7 @@ Here’s a polished **README.md draft** tailored for your *Wedding Booking Syste
 
 ---
 
- **Wedding Booking System**  
+ **Wedding Planning and Vendor Booking System**  
 
  📖 Overview 
  

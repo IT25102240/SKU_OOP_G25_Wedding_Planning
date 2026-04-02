@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Booking_Management_example.iml" filepath="$PROJECT_DIR$/Booking_Management_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SKU_OOP_G25_Wedding_Planning.iml" filepath="$PROJECT_DIR$/.idea/SKU_OOP_G25_Wedding_Planning.iml" />
     </modules>
   </component>
 </project>

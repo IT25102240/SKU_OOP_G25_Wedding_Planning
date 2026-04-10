@@ -5,7 +5,7 @@ public class Package_wedding {
             this.bookingId = id;
             this.customerName = name;
             this.date = date;
-            this.venue = venue;
+            this.venue = venue;bajhssjksj
         }
     }
 

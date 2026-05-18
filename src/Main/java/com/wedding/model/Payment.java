@@ -1,13 +1,15 @@
 package com.wedding.model;
 
-// OOP: ENCAPSULATION - payment data is private and controlled
+
+//                          IT25102225         Daham Edirisinghe
+
 public class Payment {
 
     private String paymentId;
     private String bookingId;
     private double amount;
-    private String method;       // cash, card, bank_transfer
-    private String status;       // pending, completed, failed, refunded
+    private String method;
+    private String status;
     private String transactionRef;
     private String paymentDate;
 
@@ -38,7 +40,7 @@ public class Payment {
         return pay;
     }
 
-    // Getters and Setters - OOP: ENCAPSULATION
+
     public String getPaymentId() { return paymentId; }
     public void setPaymentId(String paymentId) { this.paymentId = paymentId; }
 

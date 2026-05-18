@@ -1,16 +1,16 @@
 package com.wedding.model;
 
-// OOP: ENCAPSULATION - all fields private, accessed via getters/setters
+                                         //IT25102225        Daham Edirisinghe
 public class Booking {
 
     private String bookingId;
     private String userId;
     private String packageId;
     private String packageName;
-    private String eventDate;     // format: YYYY-MM-DD
+    private String eventDate;
     private int guestCount;
     private String venueName;
-    private String status;        // pending, confirmed, cancelled, completed
+    private String status;
     private double totalAmount;
     private String createdDate;
     private String specialRequests;
@@ -33,14 +33,14 @@ public class Booking {
         this.specialRequests = "";
     }
 
-    public String toFileString() {
+    public String toFileString(){
         return bookingId + "|" + userId + "|" + packageId + "|" + packageName
                 + "|" + eventDate + "|" + guestCount + "|" + venueName
                 + "|" + status + "|" + totalAmount + "|" + createdDate
                 + "|" + (specialRequests == null ? "" : specialRequests.replace("|", ","));
     }
 
-    public static Booking fromFileString(String line) {
+    public static Booking fromFileString(String line){
         String[] p = line.split("\\|");
         if (p.length < 10) return null;
         Booking b = new Booking(p[0], p[1], p[2], p[3], p[4],
@@ -50,7 +50,7 @@ public class Booking {
         return b;
     }
 
-    // Getters and Setters - OOP: ENCAPSULATION
+
     public String getBookingId() { return bookingId; }
     public void setBookingId(String bookingId) { this.bookingId = bookingId; }
 

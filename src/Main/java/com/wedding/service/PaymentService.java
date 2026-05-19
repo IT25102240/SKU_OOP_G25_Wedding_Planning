@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// IT25102225 Daham Edirisinghe - Payment Management Service
+// IT25102225 Daham Edirisinghe -Payment Management Service
 
 @Service
 public class PaymentService {

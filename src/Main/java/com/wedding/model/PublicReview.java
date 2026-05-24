@@ -1,7 +1,10 @@
 package com.wedding.model;
 
+import com.wedding.util.FileHandler;
+
 // OOP: INHERITANCE - PublicReview extends Review
 // OOP: POLYMORPHISM - overrides abstract methods
+// FIX: toFileString() sanitises all user-supplied fields (title, comment, userName etc.)
 public class PublicReview extends Review {
 
     public PublicReview() {}
@@ -20,12 +23,19 @@ public class PublicReview extends Review {
     }
 
     // OOP: POLYMORPHISM
+    // FIX: all string fields sanitised, not just comment
     @Override
     public String toFileString() {
-        return "PUBLIC|" + getReviewId() + "|" + getUserId() + "|" + getUserName()
-                + "|" + getPackageId() + "|" + getPackageName()
-                + "|" + getRating() + "|" + getTitle()
-                + "|" + getComment().replace("|", ",") + "|" + getCreatedDate();
+        return "PUBLIC|"
+                + getReviewId() + "|"
+                + getUserId() + "|"
+                + FileHandler.sanitise(getUserName()) + "|"
+                + getPackageId() + "|"
+                + FileHandler.sanitise(getPackageName()) + "|"
+                + getRating() + "|"
+                + FileHandler.sanitise(getTitle()) + "|"
+                + FileHandler.sanitise(getComment()) + "|"
+                + getCreatedDate();
     }
 
     public static PublicReview fromFileString(String line) {

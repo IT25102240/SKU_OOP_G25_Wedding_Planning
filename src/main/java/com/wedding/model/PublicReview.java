@@ -2,9 +2,11 @@ package com.wedding.model;
 
 import com.wedding.util.FileHandler;
 
+// CHANUKA -IT25102207 Feedback & Review Management
 // OOP: INHERITANCE - PublicReview extends Review
 // OOP: POLYMORPHISM - overrides abstract methods
 // toFileString() sanitises all user-supplied fields (title, comment, userName etc.)
+
 public class PublicReview extends Review {
 
     public PublicReview() {}

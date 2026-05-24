@@ -1,5 +1,6 @@
 package com.wedding.model;
 
+// CHANUKA -IT25102207 Feedback & Review Management
 // OOP: ABSTRACTION - abstract base for all review types
 // OOP: ENCAPSULATION - all fields private
 public abstract class Review {

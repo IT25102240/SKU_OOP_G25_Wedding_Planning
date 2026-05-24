@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
-// IT25102225  Daham Edirisinghe
+// DAHAM IT25102225 - Booking & Payment Management Controller
 
 @Controller
 @RequestMapping("/bookings")
@@ -33,11 +33,11 @@ public class BookingController {
         this.paymentService = paymentService;
     }
 
-    //list boooking
+    //list bookings
     @GetMapping
     public String list(HttpSession session, Model model) {
-        User current = (User) session.getAttribute("currentUser");
-        if (current == null) return "redirect:/login";
+        User current=(User) session.getAttribute("currentUser");
+        if(current== null) return "redirect:/login";
 
         List<Booking> bookings = current.getRole().equals("admin")
                 ? bookingService.getAllBookings()
@@ -48,18 +48,23 @@ public class BookingController {
         return "bookings/list";
     }
 
-    //view booking details
+    //view booking detals
     @GetMapping("/{id}")
     public String detail(@PathVariable String id, HttpSession session, Model model) {
         User current = (User) session.getAttribute("currentUser");
-        if (current == null) return "redirect:/login";
+        if(current == null) return "redirect:/login";
 
         Booking booking = bookingService.findById(id);
-        if (booking == null) return "redirect:/bookings";
+        if(booking == null) return "redirect:/bookings";
 
-        List<Payment> payments = paymentService.getByBookingId(id);
-        double totalPaid = paymentService.getTotalPaid(id);
-        double remaining = booking.getTotalAmount() - totalPaid;
+
+        if (!current.getRole().equals("admin") && !booking.getUserId().equals(current.getId())) {
+            return "redirect:/bookings";
+        }
+
+        List<Payment> payments= paymentService.getByBookingId(id);
+        double totalPaid=paymentService.getTotalPaid(id);
+        double remaining=booking.getTotalAmount() - totalPaid;
 
         model.addAttribute("booking", booking);
         model.addAttribute("payments", payments);
@@ -74,10 +79,10 @@ public class BookingController {
     public String createPage(@PathVariable String packageId,
                              HttpSession session, Model model) {
         User current = (User) session.getAttribute("currentUser");
-        if (current == null) return "redirect:/login";
+        if(current == null) return "redirect:/login";
 
         WeddingPackage pkg = packageService.findById(packageId);
-        if (pkg == null) return "redirect:/packages";
+        if(pkg == null) return "redirect:/packages";
 
         model.addAttribute("pkg", pkg);
         model.addAttribute("currentUser", current);
@@ -95,7 +100,7 @@ public class BookingController {
                                 HttpSession session,
                                 RedirectAttributes ra) {
         User current = (User) session.getAttribute("currentUser");
-        if (current == null) return "redirect:/login";
+        if(current == null) return "redirect:/login";
 
         bookingService.createBooking(current.getId(), packageId, packageName,
                 eventDate, guestCount, venueName, totalAmount, specialRequests);
@@ -107,7 +112,14 @@ public class BookingController {
     @PostMapping("/status/{id}")
     public String updateStatus(@PathVariable String id,
                                @RequestParam String status,
+                               HttpSession session,
                                RedirectAttributes ra) {
+
+        User current = (User) session.getAttribute("currentUser");
+        if(current == null || !current.getRole().equals("admin")) {
+            ra.addFlashAttribute("error", "Only admins can update booking status.");
+            return "redirect:/bookings/" + id;
+        }
         boolean ok = bookingService.updateStatus(id, status);
         ra.addFlashAttribute(ok ? "success" : "error", ok ? "Status updated." : "Update failed.");
         return "redirect:/bookings/" + id;
@@ -117,9 +129,21 @@ public class BookingController {
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable String id, HttpSession session, Model model) {
         User current = (User) session.getAttribute("currentUser");
-        if (current == null) return "redirect:/login";
+        if(current == null) return "redirect:/login";
+
         Booking booking = bookingService.findById(id);
-        if (booking == null) return "redirect:/bookings";
+        if(booking == null) return "redirect:/bookings";
+
+        if(!current.getRole().equals("admin") && !booking.getUserId().equals(current.getId())) {
+            return "redirect:/bookings";
+        }
+
+        if(!current.getRole().equals("admin") &&
+                (booking.getStatus().equals("confirmed") || booking.getStatus().equals("completed"))) {
+            model.addAttribute("error", "Confirmed or completed bookings cannot be edited.");
+            return "redirect:/bookings/" + id;
+        }
+
         model.addAttribute("booking", booking);
         model.addAttribute("currentUser", current);
         return "bookings/edit";
@@ -131,7 +155,20 @@ public class BookingController {
                                 @RequestParam int guestCount,
                                 @RequestParam String venueName,
                                 @RequestParam String specialRequests,
+                                HttpSession session,
                                 RedirectAttributes ra) {
+        User current = (User) session.getAttribute("currentUser");
+        if(current == null) return "redirect:/login";
+
+        Booking booking = bookingService.findById(id);
+        if(booking == null) return "redirect:/bookings";
+
+
+        if(!current.getRole().equals("admin") && !booking.getUserId().equals(current.getId())) {
+            ra.addFlashAttribute("error", "You can only edit your own bookings.");
+            return "redirect:/bookings";
+        }
+
         boolean ok = bookingService.updateBooking(id, eventDate, guestCount, venueName, specialRequests);
         ra.addFlashAttribute(ok ? "success" : "error", ok ? "Booking updated." : "Update failed.");
         return "redirect:/bookings";
@@ -139,19 +176,46 @@ public class BookingController {
 
     //delete booking
     @PostMapping("/delete/{id}")
-    public String deleteBooking(@PathVariable String id, RedirectAttributes ra) {
+    public String deleteBooking(@PathVariable String id,
+                                HttpSession session,
+                                RedirectAttributes ra) {
+        User current = (User) session.getAttribute("currentUser");
+        if(current == null) return "redirect:/login";
+
+        Booking booking = bookingService.findById(id);
+        if(booking == null) return "redirect:/bookings";
+
+
+        if(!current.getRole().equals("admin") && !booking.getUserId().equals(current.getId())) {
+            ra.addFlashAttribute("error", "You can only delete your own bookings.");
+            return "redirect:/bookings";
+        }
+
         boolean ok = bookingService.deleteBooking(id);
         ra.addFlashAttribute(ok ? "success" : "error", ok ? "Booking deleted." : "Delete failed.");
         return "redirect:/bookings";
     }
 
-    //record paymentt
+    //record payment
     @PostMapping("/{id}/payment")
     public String recordPayment(@PathVariable String id,
                                 @RequestParam double amount,
                                 @RequestParam String method,
                                 @RequestParam(defaultValue = "") String transactionRef,
+                                HttpSession session,
                                 RedirectAttributes ra) {
+        User current=(User) session.getAttribute("currentUser");
+        if (current==null) return "redirect:/login";
+
+        Booking booking=bookingService.findById(id);
+        if (booking==null) return "redirect:/bookings";
+
+
+        if (!current.getRole().equals("admin") && !booking.getUserId().equals(current.getId())) {
+            ra.addFlashAttribute("error", "Access denied.");
+            return "redirect:/bookings";
+        }
+
         paymentService.recordPayment(id, amount, method, transactionRef);
         ra.addFlashAttribute("success", "Payment recorded successfully.");
         return "redirect:/bookings/" + id;

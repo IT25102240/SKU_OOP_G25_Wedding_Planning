@@ -1,5 +1,6 @@
 package com.wedding.model;
 
+// LAHIRU  IT25102208
 // OOP: ABSTRACTION - abstract base for all wedding packages
 // OOP: ENCAPSULATION - fields are private with getters/setters
 public abstract class WeddingPackage {

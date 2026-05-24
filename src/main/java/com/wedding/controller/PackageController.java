@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
-// LAHIRU - Wedding Package Management Controller
+// LAHIRU - Wedding Package Management Controller - IT25102208
 // Handles: Add, List (sorted), View, Edit, Delete packages
 @Controller
 @RequestMapping("/packages")
@@ -23,7 +23,7 @@ public class PackageController {
         this.packageService = packageService;
     }
 
-    // ─── LIST PACKAGES ──────────────────────────────────────────────────────
+    // List Packages
     @GetMapping
     public String list(@RequestParam(defaultValue = "price") String sort,
                        @RequestParam(required = false) String search,
@@ -43,7 +43,7 @@ public class PackageController {
         return "packages/list";
     }
 
-    // ─── VIEW SINGLE PACKAGE ────────────────────────────────────────────────
+    //View Single Package
     @GetMapping("/{id}")
     public String view(@PathVariable String id, Model model, HttpSession session) {
         WeddingPackage pkg = packageService.findById(id);
@@ -53,7 +53,7 @@ public class PackageController {
         return "packages/detail";
     }
 
-    // ─── ADD PACKAGE (admin only) ────────────────────────────────────────────
+    // Add Package (Admin Only)
     @GetMapping("/add")
     public String addPage(HttpSession session, Model model) {
         User current = (User) session.getAttribute("currentUser");
@@ -77,7 +77,7 @@ public class PackageController {
         return "redirect:/packages";
     }
 
-    // ─── EDIT PACKAGE (admin only) ───────────────────────────────────────────
+    // Edit Package (admin only)
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable String id, HttpSession session, Model model) {
         User current = (User) session.getAttribute("currentUser");
@@ -102,7 +102,7 @@ public class PackageController {
         return "redirect:/packages";
     }
 
-    // ─── DELETE PACKAGE (admin only) ─────────────────────────────────────────
+    // Delete Package (admin only)
     @PostMapping("/delete/{id}")
     public String deletePackage(@PathVariable String id, RedirectAttributes ra) {
         boolean ok = packageService.deletePackage(id);

@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// LAHIRU - Wedding Package Management Service
+// LAHIRU - Wedding Package Management Service - IT25102208
 // Uses: VendorLinkedList (Linked List) + Bubble Sort
-// FILE HANDLING: reads/writes to packages.txt
+
 @Service
 public class PackageService {
 

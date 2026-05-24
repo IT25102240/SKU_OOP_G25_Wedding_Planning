@@ -1,10 +1,12 @@
 package com.wedding.model;
 
+// LAHIRU  IT25102208
 // OOP: INHERITANCE - BasicPackage extends WeddingPackage
 // OOP: POLYMORPHISM - overrides abstract methods
+
 public class BasicPackage extends WeddingPackage {
 
-    private String includes; // comma-separated list of what's included
+    private String includes;
 
     public BasicPackage() {}
 

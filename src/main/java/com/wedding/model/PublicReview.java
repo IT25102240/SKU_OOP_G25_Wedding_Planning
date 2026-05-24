@@ -4,7 +4,7 @@ import com.wedding.util.FileHandler;
 
 // OOP: INHERITANCE - PublicReview extends Review
 // OOP: POLYMORPHISM - overrides abstract methods
-// FIX: toFileString() sanitises all user-supplied fields (title, comment, userName etc.)
+// toFileString() sanitises all user-supplied fields (title, comment, userName etc.)
 public class PublicReview extends Review {
 
     public PublicReview() {}
@@ -23,7 +23,7 @@ public class PublicReview extends Review {
     }
 
     // OOP: POLYMORPHISM
-    // FIX: all string fields sanitised, not just comment
+    //all string fields sanitised
     @Override
     public String toFileString() {
         return "PUBLIC|"

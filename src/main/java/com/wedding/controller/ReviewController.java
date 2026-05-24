@@ -12,10 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
-// CHANUKA - Feedback & Review Management Controller
-// FIX: ownership guard added to edit, update, and delete endpoints.
-//      A customer can only edit/delete their OWN reviews.
-//      Admin can edit/delete any review.
+// CHANUKA -IT25102207 Feedback & Review Management Controller
+//A customer can edit/delete their own reviews.
+//Admin can edit/delete any review.
 @Controller
 @RequestMapping("/reviews")
 public class ReviewController {
@@ -28,7 +27,7 @@ public class ReviewController {
         this.packageService = packageService;
     }
 
-    // ─── LIST ALL REVIEWS ───────────────────────────────────────────────────
+    // List all reviews
     @GetMapping
     public String list(Model model, HttpSession session) {
         model.addAttribute("reviews", reviewService.getAllReviews());
@@ -36,7 +35,7 @@ public class ReviewController {
         return "reviews/list";
     }
 
-    // ─── SUBMIT REVIEW FORM ─────────────────────────────────────────────────
+    // Submit review form
     @GetMapping("/submit")
     public String submitPage(HttpSession session, Model model) {
         User current = (User) session.getAttribute("currentUser");
@@ -70,7 +69,7 @@ public class ReviewController {
         return "redirect:/reviews";
     }
 
-    // ─── EDIT REVIEW ────────────────────────────────────────────────────────
+    //Edit Review
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable String id, HttpSession session, Model model) {
         User current = (User) session.getAttribute("currentUser");
@@ -79,7 +78,7 @@ public class ReviewController {
         Review review = reviewService.findById(id);
         if (review == null) return "redirect:/reviews";
 
-        // FIX: ownership guard — customers can only edit their own reviews
+        //customers can only edit their own reviews
         if (!current.getRole().equals("admin") && !review.getUserId().equals(current.getId())) {
             return "redirect:/reviews";
         }
@@ -102,7 +101,7 @@ public class ReviewController {
         Review review = reviewService.findById(id);
         if (review == null) return "redirect:/reviews";
 
-        // FIX: ownership guard
+
         if (!current.getRole().equals("admin") && !review.getUserId().equals(current.getId())) {
             ra.addFlashAttribute("error", "You can only edit your own reviews.");
             return "redirect:/reviews";
@@ -113,7 +112,7 @@ public class ReviewController {
         return "redirect:/reviews";
     }
 
-    // ─── DELETE REVIEW ───────────────────────────────────────────────────────
+    //Delete review
     @PostMapping("/delete/{id}")
     public String deleteReview(@PathVariable String id,
                                HttpSession session,
@@ -124,7 +123,7 @@ public class ReviewController {
         Review review = reviewService.findById(id);
         if (review == null) return "redirect:/reviews";
 
-        // FIX: ownership guard — customers can only delete their own reviews
+        //customers can only delete their own reviews
         if (!current.getRole().equals("admin") && !review.getUserId().equals(current.getId())) {
             ra.addFlashAttribute("error", "You can only delete your own reviews.");
             return "redirect:/reviews";

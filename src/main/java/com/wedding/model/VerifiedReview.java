@@ -4,7 +4,7 @@ import com.wedding.util.FileHandler;
 
 // OOP: INHERITANCE - VerifiedReview extends Review
 // OOP: POLYMORPHISM - overrides abstract methods, adds booking verification
-// FIX: toFileString() sanitises all user-supplied fields
+// toFileString() sanitises all user-supplied fields
 public class VerifiedReview extends Review {
 
     private String bookingId; // proof of purchase
@@ -27,7 +27,7 @@ public class VerifiedReview extends Review {
     }
 
     // OOP: POLYMORPHISM - includes bookingId in file format
-    // FIX: all string fields sanitised
+    // all string fields sanitised
     @Override
     public String toFileString() {
         return "VERIFIED|"

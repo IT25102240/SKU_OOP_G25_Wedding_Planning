@@ -1,5 +1,6 @@
 package com.wedding.model;
 
+// VIDURA IT25102240
 // OOP: ABSTRACTION - abstract base class that defines common structure
 // OOP: ENCAPSULATION - private fields with public getters/setters
 public abstract class Person {

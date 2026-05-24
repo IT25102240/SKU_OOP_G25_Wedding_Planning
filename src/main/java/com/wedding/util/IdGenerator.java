@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+// VIDURA IT25102240
 // Utility to generate unique IDs for each entity
-// FIX: replaced System.currentTimeMillis() % 100000 with UUID to prevent collisions
 public class IdGenerator {
 
-    // Generates a short 8-char uppercase UUID prefix  e.g. "USR-A3F7B2C1"
+    // 8-char uppercase UUID prefix  e.g. "USR-A3F7B2C1"
     private static String shortUUID() {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
     }

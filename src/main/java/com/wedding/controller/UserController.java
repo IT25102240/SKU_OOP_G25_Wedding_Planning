@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
-// VIDURA - User Management Controller
+// VIDURA - User Management Controller - IT25102240
 // Handles: Register, Login, List Users, Update, Delete
 @Controller
 public class UserController {
@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // HOME PAGE
+    // Home Page
     @GetMapping("/")
     public String home(Model model, HttpSession session) {
         User user = (User) session.getAttribute("currentUser");
@@ -29,7 +29,7 @@ public class UserController {
         return "home";
     }
 
-    // ─── LOGIN ──────────────────────────────────────────────────────────────
+    // Login
     @GetMapping("/login")
     public String loginPage(HttpSession session) {
         if (session.getAttribute("currentUser") != null) return "redirect:/";
@@ -56,7 +56,7 @@ public class UserController {
         return "redirect:/login";
     }
 
-    // ─── REGISTER ───────────────────────────────────────────────────────────
+    //Register
     @GetMapping("/register")
     public String registerPage() {
         return "users/register";
@@ -77,7 +77,7 @@ public class UserController {
         return "redirect:/login";
     }
 
-    // ─── LIST USERS (admin only) ─────────────────────────────────────────────
+    //List user (Admin Only)
     @GetMapping("/users")
     public String listUsers(@RequestParam(required = false) String search,
                             Model model, HttpSession session) {
@@ -94,7 +94,7 @@ public class UserController {
         return "users/list";
     }
 
-    // ─── PROFILE PAGE ────────────────────────────────────────────────────────
+    //Profile Page
     @GetMapping("/profile")
     public String profile(Model model, HttpSession session) {
         User current = (User) session.getAttribute("currentUser");
@@ -103,7 +103,7 @@ public class UserController {
         return "users/profile";
     }
 
-    // ─── UPDATE USER ─────────────────────────────────────────────────────────
+    //Update User
     @GetMapping("/users/edit/{id}")
     public String editPage(@PathVariable String id, Model model, HttpSession session) {
         User current = (User) session.getAttribute("currentUser");
@@ -126,7 +126,7 @@ public class UserController {
         return "redirect:/users";
     }
 
-    // ─── DELETE USER ──────────────────────────────────────────────────────────
+    //Delete User
     @PostMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable String id, RedirectAttributes ra) {
         boolean ok = userService.deleteUser(id);

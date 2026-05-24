@@ -3,10 +3,10 @@ package com.wedding.model;
 import com.wedding.util.FileHandler;
 import com.wedding.util.PasswordUtil;
 
+// VIDURA IT25102240
 // OOP: INHERITANCE - User extends Person
 // OOP: ENCAPSULATION - password is private and HASHED — never stored plain-text
-// FIX: password is now stored as a SHA-256 hash via PasswordUtil.hash()
-//      checkPassword() verifies by hashing the input and comparing hashes.
+
 public class User extends Person {
 
     private String password; // stored as SHA-256 hex hash
@@ -14,10 +14,8 @@ public class User extends Person {
 
     public User() {}
 
-    // Constructor — accepts PLAIN-TEXT password; hashes it internally
     public User(String id, String name, String email, String phone, String password, String role) {
         super(id, name, email, phone);
-        // Hash on the way in so plain text never lives in memory beyond this call
         this.password = PasswordUtil.hash(password);
         this.role = role;
     }
@@ -29,7 +27,7 @@ public class User extends Person {
     }
 
     // OOP: POLYMORPHISM - overrides abstract toFileString
-    // FIX: all string fields passed through FileHandler.sanitise()
+    // all string fields passed through FileHandler.sanitise()
     @Override
     public String toFileString() {
         return FileHandler.sanitise(getId()) + "|"
@@ -41,15 +39,13 @@ public class User extends Person {
     }
 
     // Parse a line from users.txt back into a User or AdminUser object
-    // FIX: now correctly returns AdminUser when role is "admin" and
-    //      extra fields (department, accessLevel) are present in the line.
     public static User fromFileString(String line) {
         String[] parts = line.split("\\|");
         if (parts.length < 6) return null;
 
         String role = parts[5];
 
-        // FIX: deserialise AdminUser correctly (was always creating plain User before)
+        //deserialise AdminUser correctly (was always creating plain User before)
         if ("admin".equals(role) && parts.length >= 8) {
             AdminUser admin = new AdminUser();
             admin.setId(parts[0]);
@@ -84,7 +80,7 @@ public class User extends Person {
     // For internal use only — sets the hash directly (used by fromFileString)
     public void setHashedPassword(String hash) { this.password = hash; }
 
-    // Sets a NEW password — hashes the plain-text input before storing
+    // Sets a New password — hashes the plain-text input before storing
     public void setPassword(String plainText) { this.password = PasswordUtil.hash(plainText); }
 
     public void setRole(String role) { this.role = role; }

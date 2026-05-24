@@ -2,11 +2,10 @@ package com.wedding.model;
 
 import com.wedding.util.FileHandler;
 
-// OOP: INHERITANCE - AdminUser extends User (multi-level inheritance: AdminUser -> User -> Person)
+// VIDURA IT25102240
+// OOP: INHERITANCE - AdminUser extends User (AdminUser -> User -> Person)
 // OOP: POLYMORPHISM - overrides getRole() and toFileString()
-// FIX: added public setRole() and setAccessLevel() so fromFileString in User.java
-//      can fully reconstruct an AdminUser from file — previously AdminUser was
-//      never actually deserialised; isSuperAdmin() was therefore dead code.
+
 public class AdminUser extends User {
 
     private String department;
@@ -14,7 +13,6 @@ public class AdminUser extends User {
 
     public AdminUser() {}
 
-    // Constructor — plain-text password is hashed by the parent User constructor
     public AdminUser(String id, String name, String email, String phone,
                      String password, String department, int accessLevel) {
         super(id, name, email, phone, password, "admin");
@@ -29,7 +27,7 @@ public class AdminUser extends User {
     }
 
     // OOP: POLYMORPHISM - overrides Person.toFileString()
-    // FIX: all string fields passed through FileHandler.sanitise()
+    // all string fields passed through FileHandler.sanitise()
     @Override
     public String toFileString() {
         return FileHandler.sanitise(getId()) + "|"

@@ -4,11 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// VIDURA IT25102240
 // FILE HANDLING utility — used by all service classes
-// FIX: Added sanitise() helper — strips the pipe character "|" from ANY
-//      user-supplied string before it reaches the file.  Previously only
-//      specialRequests was sanitised; all other fields (venueName, packageName,
-//      comment, etc.) could corrupt a record if a user typed a "|".
+
 public class FileHandler {
 
     private final String dataDir;
@@ -18,9 +16,7 @@ public class FileHandler {
         new File(dataDir).mkdirs();
     }
 
-    // ── Sanitise a single value before writing to file ──────────────────────
-    // Replaces "|" with a comma so the pipe-delimited format is never broken.
-    // Call this on EVERY user-supplied string before building toFileString().
+    // Sanitise a single value before writing to file
     public static String sanitise(String value) {
         if (value == null) return "";
         return value.replace("|", ",");

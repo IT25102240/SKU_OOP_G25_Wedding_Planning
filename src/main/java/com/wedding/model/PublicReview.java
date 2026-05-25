@@ -25,7 +25,7 @@ public class PublicReview extends Review {
     }
 
     // OOP: POLYMORPHISM
-    //all string fields sanitised
+    // all string fields sanitised, not just comment
     @Override
     public String toFileString() {
         return "PUBLIC|"

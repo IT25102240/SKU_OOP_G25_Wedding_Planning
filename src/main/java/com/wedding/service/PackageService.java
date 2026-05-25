@@ -14,6 +14,7 @@ import java.util.List;
 
 // LAHIRU - Wedding Package Management Service - IT25102208
 // Uses: VendorLinkedList (Linked List) + Bubble Sort
+// reads/writes to packages.txt
 
 @Service
 public class PackageService {
@@ -129,7 +130,7 @@ public class PackageService {
         boolean found = false;
         for (String line : lines) {
             WeddingPackage pkg = parseLine(line);
-            if (pkg != null && pkg.getId().equals(id)) {
+            if (pkg != null && pkg.getId().equals(id) && !found) {//!found
                 pkg.setName(name);
                 pkg.setDescription(description);
                 pkg.setPrice(price);

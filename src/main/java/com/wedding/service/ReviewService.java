@@ -11,17 +11,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// CHANUKA - Review & Feedback Management Service - IT25102207
+// CHANUKA - Review & Feedback Management Service
 // FILE HANDLING: reads/writes to reviews.txt
 // OOP: Polymorphism — PublicReview and VerifiedReview handled uniformly as Review
-@Service
+@Service //Spring Boot Annotation
 public class ReviewService {
 
-    private static final String FILE = "reviews.txt";
-    private final FileHandler fileHandler;
+    private static final String FILE = "reviews.txt"; //This system stores review data inside a text file
+    private final FileHandler fileHandler;//This object is used to perform file operations such as reading, writing, and appending data.
 
+    //This constructor receives the data directory path from the application properties using @Value.”
     public ReviewService(@Value("${data.dir}") String dataDir) {
-        this.fileHandler = new FileHandler(dataDir);
+        this.fileHandler = new FileHandler(dataDir);//Creates the FileHandler object.”
         seedDefaultReviews();
     }
 
@@ -34,9 +35,10 @@ public class ReviewService {
         }
     }
 
+    //This method converts file text into objects
     private Review parseLine(String line) {
-        if (line.startsWith("PUBLIC")) return PublicReview.fromFileString(line);
-        if (line.startsWith("VERIFIED")) return VerifiedReview.fromFileString(line);
+        if (line.startsWith("PUBLIC")) return PublicReview.fromFileString(line);//If the line starts with PUBLIC, it creates a PublicReview object
+        if (line.startsWith("VERIFIED")) return VerifiedReview.fromFileString(line);//If the line starts with VERIFIED, it creates a VerifiedReview object.
         return null;
     }
 
@@ -64,6 +66,7 @@ public class ReviewService {
     }
 
     // READ - Get all reviews
+    //This method reads all reviews from the file and stores them in a list
     public List<Review> getAllReviews() {
         List<Review> reviews = new ArrayList<>();
         for (String line : fileHandler.readAll(FILE)) {
@@ -74,6 +77,7 @@ public class ReviewService {
     }
 
     // READ - Get reviews for a specific package
+    //This method filters reviews based on package ID.
     public List<Review> getByPackage(String packageId) {
         List<Review> result = new ArrayList<>();
         for (Review r : getAllReviews()) {
@@ -83,6 +87,7 @@ public class ReviewService {
     }
 
     // READ - Find by review ID
+    //This method filters reviews based on package ID.
     public Review findById(String reviewId) {
         for (Review r : getAllReviews()) {
             if (r.getReviewId().equals(reviewId)) return r;
@@ -91,6 +96,7 @@ public class ReviewService {
     }
 
     // UPDATE - Edit a review (title, comment, rating)
+    //This method updates the review title, comment, and rating
     public boolean updateReview(String reviewId, String title, String comment, int rating) {
         List<String> lines = fileHandler.readAll(FILE);
         List<String> updated = new ArrayList<>();
@@ -112,6 +118,7 @@ public class ReviewService {
     }
 
     // DELETE - Remove a review
+    //This method removes a review from the file by skipping the matching review during rewriting
     public boolean deleteReview(String reviewId) {
         List<String> lines = fileHandler.readAll(FILE);
         List<String> updated = new ArrayList<>();
@@ -129,6 +136,7 @@ public class ReviewService {
     }
 
     // Average rating for a package
+    //This uses Java Stream API to calculate the average rating of a package
     public double averageRating(String packageId) {
         List<Review> reviews = getByPackage(packageId);
         if (reviews.isEmpty()) return 0;

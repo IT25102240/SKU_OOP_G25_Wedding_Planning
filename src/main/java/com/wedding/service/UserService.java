@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// VIDURA - User Management Service - IT25102240
-// passwords are stored as SHA-256 hashes via User constructor / PasswordUtil
-
+// VIDURA - User Management Service
+// FILE HANDLING: reads/writes to users.txt
+// FIX 1: passwords are stored as SHA-256 hashes via User constructor / PasswordUtil
+// FIX 2: fromFileString now correctly returns AdminUser when fields are present
+// FIX 3: seeded admin now stored with hash; existing plain-text files will no
+//         longer match — clear data/users.txt once after deploying the fix.
 @Service
 public class UserService {
 
@@ -45,6 +48,7 @@ public class UserService {
     }
 
     // CREATE - Register new user
+    // FIX: User constructor hashes the password — no plain text ever reaches the file
     public boolean registerUser(String name, String email, String phone,
                                 String password, String role) {
         if (findByEmail(email) != null) return false; // email already exists
@@ -55,7 +59,7 @@ public class UserService {
     }
 
     // READ - Get all users
-    // User.fromFileString now returns AdminUser
+    // FIX: User.fromFileString now returns AdminUser when appropriate
     public List<User> getAllUsers() {
         List<String> lines = fileHandler.readAll(FILE);
         List<User> users = new ArrayList<>();
@@ -132,7 +136,7 @@ public class UserService {
     }
 
     // LOGIN - Authenticate user
-    // checkPassword() now compares SHA-256 hashes via PasswordUtil.verify()
+    // FIX: checkPassword() now compares SHA-256 hashes via PasswordUtil.verify()
     public User login(String email, String password) {
         User user = findByEmail(email);
         if (user != null && user.checkPassword(password)) return user;

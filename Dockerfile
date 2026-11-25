@@ -8,28 +8,18 @@ FROM eclipse-temurin:17-jdk-alpine AS build
 
 WORKDIR /app
 
-# Copy Maven wrapper and pom first (better layer caching)
-COPY pom.xml .
-COPY .mvn .mvn
-COPY mvnw .
+# Install Maven (project has no Maven wrapper)
+RUN apk add --no-cache maven
 
-# If mvnw doesn't exist, install Maven manually
-RUN if [ ! -f mvnw ]; then \
-      apk add --no-cache maven && \
-      mvn dependency:resolve; \
-    else \
-      chmod +x mvnw && ./mvnw dependency:resolve; \
-    fi
+# Copy pom first for better layer caching
+COPY pom.xml .
+RUN mvn dependency:resolve
 
 # Copy source code
 COPY src ./src
 
 # Build the JAR (skip tests for faster build)
-RUN if [ -f mvnw ]; then \
-      ./mvnw package -DskipTests; \
-    else \
-      mvn package -DskipTests; \
-    fi
+RUN mvn package -DskipTests
 
 # --- Stage 2: Run ---
 FROM eclipse-temurin:17-jre-alpine

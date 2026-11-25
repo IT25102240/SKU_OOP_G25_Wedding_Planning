@@ -43,8 +43,10 @@ An all-in-one web-based platform for wedding venues and vendors. Centralizes inq
 ## Team Member Contributions
 
 ### Vidura — User Management + Analytics Dashboard
-- **Files:** `User.java`, `AdminUser.java`, `UserService.java`, `UserController.java`, `DashboardController.java`
-- **UI:** `login.html`, `register.html`, `users/list.html`, `users/edit.html`, `profile.html`, `dashboard.html`
+- **Model Files:** `Person.java`, `User.java`, `AdminUser.java`
+- **Service/Controller:** `UserService.java`, `UserController.java`, `DashboardController.java`
+- **Utility Files:** `FileHandler.java`, `IdGenerator.java`, `PasswordUtil.java`, `VendorLinkedList.java`
+- **UI:** `login.html`, `register.html`, `users/list.html`, `users/edit.html`, `profile.html`, `dashboard.html`, `home.html`
 - **CRUD:** Create (register), Read (search/list), Update (edit), Delete (remove user)
 
 ### Lahiru — Wedding Package Management
@@ -80,7 +82,7 @@ cd SKU_OOP_G25_Wedding_Planning
 ```
 
 ### Step 2 — Open in IntelliJ IDEA
-1. Open IntelliJ → **File → Open** → select the `java-project` folder
+1. Open IntelliJ → **File → Open** → select the project folder
 2. IntelliJ will detect it as a Maven project and download dependencies automatically
 3. Wait for indexing to finish (bottom status bar)
 
@@ -137,7 +139,6 @@ git push origin vidura/feature-name
 ## Project Structure
 
 ```
-java-project/
 ├── src/main/java/com/wedding/
 │   ├── WeddingBookingApplication.java     ← entry point
 │   ├── model/
@@ -154,8 +155,9 @@ java-project/
 │   │   └── VerifiedReview.java            ← extends Review
 │   ├── util/
 │   │   ├── VendorLinkedList.java          ← Linked List + Bubble Sort
-│   │   ├── FileHandler.java               ← File Read/Write
-│   │   └── IdGenerator.java
+│   │   ├── FileHandler.java              ← File Read/Write
+│   │   ├── IdGenerator.java              ← Unique ID generation
+│   │   └── PasswordUtil.java             ← Password hashing (SHA-256)
 │   ├── service/
 │   │   ├── UserService.java               ← Vidura
 │   │   ├── PackageService.java            ← Lahiru
@@ -173,6 +175,8 @@ java-project/
 │   └── templates/
 │       ├── home.html
 │       ├── dashboard.html                 ← Vidura
+│       ├── shared/
+│       │   └── layout.html                ← common nav/footer layout
 │       ├── users/                         ← Vidura
 │       ├── packages/                      ← Lahiru
 │       ├── bookings/                      ← Daham

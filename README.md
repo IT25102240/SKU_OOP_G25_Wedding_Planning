@@ -1,186 +1,148 @@
-# SKU_OOP_G25 — Wedding Planning and Vendor Booking System
+# EverAfter - Wedding Planning & Vendor Booking System
 
-**Course:** SE1020 – Object Oriented Programming  
-**Group:** G25  
-**Team:** Vidura · Daham · Chanuka · Lahiru
+Group project for **SE1020 (Object Oriented Programming)** - Group G25.  
+Built by **Vidura, Daham, Chanuka, and Lahiru**.
 
----
-
-## Project Overview
-
-An all-in-one web-based platform for wedding venues and vendors. Centralizes inquiries, scheduling, payments, and analytics to streamline operations and increase bookings.
-
----
+EverAfter is a web application for managing wedding packages, customer bookings, payments, user accounts, and reviews. Instead of using an external SQL database, all records are persisted in plain `.txt` files using custom file handling, with a custom singly linked list and bubble sort for package management.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Language | Java 17 |
-| Framework | Spring Boot 3.2 |
-| Frontend | HTML5 + CSS3 + Bootstrap 5 |
-| Template Engine | Thymeleaf |
-| Data Storage | File Handling (`.txt` files) |
-| Version Control | Git & GitHub |
-| IDE | IntelliJ IDEA |
+- **Backend:** Java 17, Spring Boot 3.2 (Spring Web + Thymeleaf)
+- **Frontend:** HTML5, CSS3, Bootstrap 5
+- **Storage:** File-based persistence (`.txt` files, pipe-delimited)
+- **Build & Deployment:** Maven, Docker (multi-stage build)
 
----
+## OOP Concepts & Data Structures
 
-## OOP Concepts Applied
+| Concept | Implementation in Project |
+|---------|---------------------------|
+| **Abstraction** | `Person`, `WeddingPackage`, and `Review` are abstract base classes defining abstract methods such as `getRole()`, `getDiscountedPrice()`, `getReviewType()`, and `toFileString()`. |
+| **Inheritance** | `Person` -> `User` -> `AdminUser`; `WeddingPackage` -> `BasicPackage`, `PremiumPackage`; `Review` -> `PublicReview`, `VerifiedReview`. |
+| **Polymorphism** | Subclasses override `getRole()`, `getDiscountedPrice()`, `getReviewType()`, and `toFileString()` to provide type-specific pricing, display labels, and serialization. |
+| **Encapsulation** | All model classes (`User`, `WeddingPackage`, `Booking`, `Payment`, `Review`, etc.) keep fields `private` with public getters and setters. |
+| **Linked List** | `VendorLinkedList` is a custom linked list implementation used to store and manage wedding packages in memory. |
+| **Bubble Sort** | `sortByPrice()` and `sortByName()` inside `VendorLinkedList` sort packages without relying on built-in collection sorters. |
+| **File Handling** | `FileHandler` handles reading and writing records to `.txt` files, and `PasswordUtil` hashes user passwords with SHA-256. |
 
-| Concept | Where Used |
-|---------|-----------|
-| **Encapsulation** | All model classes (User, WeddingPackage, Booking, Payment, Review) — private fields + getters/setters |
-| **Inheritance** | `User` → `AdminUser`, `WeddingPackage` → `BasicPackage` / `PremiumPackage`, `Review` → `PublicReview` / `VerifiedReview` |
-| **Polymorphism** | `getRole()`, `toFileString()`, `getDiscountedPrice()`, `getReviewType()` overridden in subclasses |
-| **Abstraction** | `Person`, `WeddingPackage`, `Review` are abstract classes with abstract methods |
-| **Linked List** | `VendorLinkedList` — custom linked list stores packages dynamically |
-| **Bubble Sort** | `sortByPrice()` and `sortByName()` in `VendorLinkedList` |
-| **File Handling** | `FileHandler` utility reads/writes all `.txt` data files |
+## Team Contributions
 
----
+### Vidura - User Management, Analytics Dashboard & Core Utilities
+- **Models:** `Person.java`, `User.java`, `AdminUser.java`
+- **Services & Controllers:** `UserService.java`, `UserController.java`, `DashboardController.java`
+- **Utilities:** `FileHandler.java`, `IdGenerator.java`, `PasswordUtil.java`, `VendorLinkedList.java`
+- **Views:** `home.html`, `dashboard.html`, `users/login.html`, `users/register.html`, `users/list.html`, `users/edit.html`, `users/profile.html`
+- **Features:** Registration, login, profile updates, admin user management (CRUD + search), and dashboard analytics.
 
-## Team Member Contributions
+### Lahiru - Wedding Package Management
+- **Models, Service & Controller:** `WeddingPackage.java`, `BasicPackage.java`, `PremiumPackage.java`, `PackageService.java`, `PackageController.java`
+- **Views:** `packages/list.html`, `packages/detail.html`, `packages/add.html`, `packages/edit.html`
+- **Features:** Create, view, sort (via `VendorLinkedList` + Bubble Sort), update, and delete wedding packages.
 
-### Vidura — User Management + Analytics Dashboard
-- **Model Files:** `Person.java`, `User.java`, `AdminUser.java`
-- **Service/Controller:** `UserService.java`, `UserController.java`, `DashboardController.java`
-- **Utility Files:** `FileHandler.java`, `IdGenerator.java`, `PasswordUtil.java`, `VendorLinkedList.java`
-- **UI:** `login.html`, `register.html`, `users/list.html`, `users/edit.html`, `profile.html`, `dashboard.html`, `home.html`
-- **CRUD:** Create (register), Read (search/list), Update (edit), Delete (remove user)
+### Daham - Booking & Payment Management
+- **Models, Services & Controller:** `Booking.java`, `Payment.java`, `BookingService.java`, `PaymentService.java`, `BookingController.java`
+- **Views:** `bookings/list.html`, `bookings/detail.html`, `bookings/create.html`, `bookings/edit.html`
+- **Features:** Create bookings, search/filter bookings, update booking status, delete bookings, and record/view payments.
 
-### Lahiru — Wedding Package Management
-- **Files:** `WeddingPackage.java`, `BasicPackage.java`, `PremiumPackage.java`, `PackageService.java`, `PackageController.java`
-- **UI:** `packages/list.html`, `packages/detail.html`, `packages/add.html`, `packages/edit.html`
-- **Data Structure:** Custom LinkedList + Bubble Sort
-- **CRUD:** Create, Read (sorted), Update, Delete
+### Chanuka - Feedback & Review Management
+- **Models, Service & Controller:** `Review.java`, `PublicReview.java`, `VerifiedReview.java`, `ReviewService.java`, `ReviewController.java`
+- **Views:** `reviews/list.html`, `reviews/submit.html`, `reviews/edit.html`
+- **Features:** Submit public or verified reviews, list/filter reviews, edit, and delete reviews.
 
-### Daham — Booking + Payment Management
-- **Files:** `Booking.java`, `Payment.java`, `BookingService.java`, `PaymentService.java`, `BookingController.java`
-- **UI:** `bookings/list.html`, `bookings/detail.html`, `bookings/create.html`, `bookings/edit.html`
-- **CRUD:** Create booking, Read/Search, Update status, Delete; + Record/View payments
-
-### Chanuka — Feedback & Review Management
-- **Files:** `Review.java`, `PublicReview.java`, `VerifiedReview.java`, `ReviewService.java`, `ReviewController.java`
-- **UI:** `reviews/list.html`, `reviews/submit.html`, `reviews/edit.html`
-- **CRUD:** Create (submit), Read (list/filter), Update (edit), Delete
-
----
-
-## Installation & Setup
+## Running Locally
 
 ### Prerequisites
-- Java 17+ — [adoptium.net](https://adoptium.net)
-- Maven 3.9+ (bundled with IntelliJ)
-- IntelliJ IDEA — [jetbrains.com/idea](https://www.jetbrains.com/idea/)
-- Git — [git-scm.com](https://git-scm.com)
+- Java 17+
+- Maven 3.9+ (or IntelliJ IDEA with bundled Maven)
 
-### Step 1 — Clone the repository
+### Option 1: IntelliJ IDEA
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/IT25102240/SKU_OOP_G25_Wedding_Planning.git
+   cd SKU_OOP_G25_Wedding_Planning
+   ```
+2. Open the project folder in IntelliJ IDEA (`File -> Open`) and let Maven sync dependencies.
+3. Run `src/main/java/com/wedding/WeddingBookingApplication.java`.
+4. Open `http://localhost:8080` in your browser.
+
+### Option 2: Command Line (Maven)
 ```bash
-git clone https://github.com/IT25102240/SKU_OOP_G25_Wedding_Planning.git
-cd SKU_OOP_G25_Wedding_Planning
+mvn spring-boot:run
+```
+Then visit `http://localhost:8080`.
+
+### Option 3: Docker
+```bash
+docker build -t everafter .
+docker run -p 8080:8080 everafter
 ```
 
-### Step 2 — Open in IntelliJ IDEA
-1. Open IntelliJ → **File → Open** → select the project folder
-2. IntelliJ will detect it as a Maven project and download dependencies automatically
-3. Wait for indexing to finish (bottom status bar)
+## Demo Accounts
 
-### Step 3 — Run the application
-1. Open `src/main/java/com/wedding/WeddingBookingApplication.java`
-2. Click the green ▶ Run button next to `main()`
-3. Wait for: `Started WeddingBookingApplication in X seconds`
+Default sample data is seeded automatically into `/data` on startup if the files are missing or empty:
 
-### Step 4 — Open in browser
-```
-http://localhost:8080
-```
-
-### Demo Accounts
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@wedding.com | admin123 |
-| Customer | emma@example.com | customer123 |
-
----
+| Admin | `admin@wedding.com` | `admin123` |
+| Customer | `emma@example.com` | `customer123` |
 
 ## Data Storage
 
-Data is stored in plain `.txt` files in the `/data` directory (created automatically):
+Records are stored in the `data/` directory (created automatically at runtime):
 - `data/users.txt`
 - `data/packages.txt`
 - `data/bookings.txt`
 - `data/payments.txt`
 - `data/reviews.txt`
 
-Each line = one record, fields separated by `|`.
-
----
-
-## GitHub Workflow (for team members)
-
-```bash
-# Before starting work — always pull first
-git pull origin main
-
-# Work on your branch
-git checkout -b vidura/feature-name
-
-# After coding — commit and push
-git add .
-git commit -m "Vidura: implement user search functionality"
-git push origin vidura/feature-name
-
-# Create Pull Request on GitHub to merge into main
-```
-
----
+Each line represents one record with fields separated by `|`.
 
 ## Project Structure
 
-```
+```text
 ├── src/main/java/com/wedding/
-│   ├── WeddingBookingApplication.java     ← entry point
+│   ├── WeddingBookingApplication.java
 │   ├── model/
-│   │   ├── Person.java                    ← abstract base (Abstraction)
-│   │   ├── User.java                      ← extends Person (Inheritance)
-│   │   ├── AdminUser.java                 ← extends User
-│   │   ├── WeddingPackage.java            ← abstract (Abstraction)
-│   │   ├── BasicPackage.java              ← extends WeddingPackage
-│   │   ├── PremiumPackage.java            ← extends WeddingPackage
+│   │   ├── Person.java
+│   │   ├── User.java
+│   │   ├── AdminUser.java
+│   │   ├── WeddingPackage.java
+│   │   ├── BasicPackage.java
+│   │   ├── PremiumPackage.java
 │   │   ├── Booking.java
 │   │   ├── Payment.java
-│   │   ├── Review.java                    ← abstract
-│   │   ├── PublicReview.java              ← extends Review
-│   │   └── VerifiedReview.java            ← extends Review
+│   │   ├── Review.java
+│   │   ├── PublicReview.java
+│   │   └── VerifiedReview.java
 │   ├── util/
-│   │   ├── VendorLinkedList.java          ← Linked List + Bubble Sort
-│   │   ├── FileHandler.java              ← File Read/Write
-│   │   ├── IdGenerator.java              ← Unique ID generation
-│   │   └── PasswordUtil.java             ← Password hashing (SHA-256)
+│   │   ├── VendorLinkedList.java
+│   │   ├── FileHandler.java
+│   │   ├── IdGenerator.java
+│   │   └── PasswordUtil.java
 │   ├── service/
-│   │   ├── UserService.java               ← Vidura
-│   │   ├── PackageService.java            ← Lahiru
-│   │   ├── BookingService.java            ← Daham
-│   │   ├── PaymentService.java            ← Daham
-│   │   └── ReviewService.java             ← Chanuka
+│   │   ├── UserService.java
+│   │   ├── PackageService.java
+│   │   ├── BookingService.java
+│   │   ├── PaymentService.java
+│   │   └── ReviewService.java
 │   └── controller/
-│       ├── UserController.java            ← Vidura
-│       ├── PackageController.java         ← Lahiru
-│       ├── BookingController.java         ← Daham
-│       ├── ReviewController.java          ← Chanuka
-│       └── DashboardController.java       ← Vidura
+│       ├── UserController.java
+│       ├── PackageController.java
+│       ├── BookingController.java
+│       ├── ReviewController.java
+│       └── DashboardController.java
 ├── src/main/resources/
 │   ├── application.properties
 │   └── templates/
 │       ├── home.html
-│       ├── dashboard.html                 ← Vidura
+│       ├── dashboard.html
 │       ├── shared/
-│       │   └── layout.html                ← common nav/footer layout
-│       ├── users/                         ← Vidura
-│       ├── packages/                      ← Lahiru
-│       ├── bookings/                      ← Daham
-│       └── reviews/                       ← Chanuka
-├── data/                                  ← txt file storage
+│       │   └── layout.html
+│       ├── users/
+│       ├── packages/
+│       ├── bookings/
+│       └── reviews/
+├── data/
+├── Dockerfile
+├── .dockerignore
 └── pom.xml
 ```

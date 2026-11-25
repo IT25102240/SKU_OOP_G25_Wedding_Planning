@@ -1,1 +1,2 @@
-BKG-E0E91385|USR-6C1AB339|PKG-485A1D25|Hilton Ballroom|2026-06-06|400|Rose Petal Pavilion|confirmed|10000.0|2026-05-31|need dj and other addd ons
+BKG-E0E91385|USR-6C1AB339|PKG-485A1D25|Hilton Ballroom|2026-06-06|400|Rose Petal Pavilion|cancelled|10000.0|2026-05-31|need dj and other addd ons
+BKG-09FA031D|USR-54376848|PKG85271|Garden Ceremony|2026-12-08|50|Rosswell Park Colombo|confirmed|2500.0|2026-11-25|Need DJ for free
